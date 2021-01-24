@@ -12,52 +12,99 @@
 
 <body>
     <h1>
-        hello world:
+        Worlds Greatest Multiplication Game!
     </h1>
-    <p id="bb8">this is my page. hi! i did...
-        i am so
-        :) have you read wings of fire?? it is awesome!!! :)
-        i haven't read all of them yet :( mabe next year mabe next year. anyway today i made a lego tank!!!!! :)
-        a caple weeks a go i made a h-wing it hase 8 blastrs! :) i wandr whut i wiil make next a helcptr? a x-wing?
-        anti-arcraft?
-        whut evre it is i wiil make it! :)
-        byyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💣💥💥💥💥💥💥💥💥💥💥
-        💥💥💥💥💥💥💥💥💂🏿‍♂️💂🏿‍♂️💂🏿‍♂️💂🏿‍♂️💂🏿‍♂️💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💂🏿‍♂️💂🏿‍♀️💂🏿‍♂️💂🏿‍♀️💥💥💥💥💥💥💥💥
-
-    </p>
-    <p>
-        what is <span id="pp"></span>x<span id="f"></span>=?
-    </p>
-    <input id="32" />
+    <p id='timer'> 1 seconds</p>
+    <p id="bb8"></p>
+    <h3>
+        what is <span id="pp"></span> x <span id="f"></span>=?
+    </h3>
+    <input id="32"/>
     <button onclick="check()">
         check my work
     </button>
+
+    <button onclick="endTimer()">end game</button>
+
+    <!-- <button onclick="next()">
+        next
+    </button> -->
+
+    <pre id='list-of-answers'></pre>
+
     <script>
+        var rights = 0;
+        var wrongs = 0;
+        var hist = [];
         var m = document.getElementById("bb8");
-        m.innerHTML = 123
-        //alert("123")
+        m.innerHTML = '100%'
+        //alert("hi! this is a multiplication")
+
+        var bb8 = document.getElementById("32");
+        bb8.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    check();
+                }
+            });
 
         function getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
-        }
-
+        }  
+        
         var pp = document.getElementById("pp")
-        pp.innerHTML = getRandomInt(10);
+       
         var f = document.getElementById("f")
-        f.innerHTML = getRandomInt(10);
+       
         function check() {
-            var m = document.getElementById("32")
+            const m = document.getElementById("32")
             // console.log(m.value)
             if (m.value == pp.innerHTML * f.innerHTML) {
-                alert("good job add 3 points 👨‍💻👩‍💻👨‍🏫🤩")
+                // alert("good job add 3 points 👨‍💻👩‍💻👨‍🏫🤩=")
+                rights += 1;
+                hist.push(pp.innerHTML+" x "+f.innerHTML+" = " + m.value + " 🤩 ");
             } else {
+                // alert(":( take -3 points 💥  🔫 🤦‍♂️")
+                wrongs += 1;
+                hist.push(pp.innerHTML+" x "+f.innerHTML+" = " + m.value + " 💥 " + " THE CORRECT ANSWER IS: " + pp.innerHTML * f.innerHTML);
+            }
+            renderHist();
+            renderPercentRight();
+            next();
+        }
 
-                alert(":( take -3 points 💥  🔫 🤦‍♂️")
+        function renderHist() {
+            var prelist = document.getElementById('list-of-answers');
+            prelist.innerHTML = '';
+            for (var i=0; i<hist.length; i++) {
+                prelist.innerHTML += hist[hist.length-i-1] + '\n';
             }
         }
 
+        function renderPercentRight() {
+            m.innerHTML = rights + ' of ' + hist.length+ ' right which is ' + Math.round((rights / (rights+wrongs))*100) + "% "
+        }
 
+        function next() {
+            var w = document.getElementById("32")
+            pp.innerHTML = getRandomInt(12);
+            f.innerHTML = getRandomInt(12);
+            w.value = '';
+        }
+
+        next();
+
+        var start = new Date().getTime();
+        var timer = setInterval(function() {
+            var now = new Date().getTime(); 
+            var diff = start - now; 
+            var numSeconds = Math.floor((diff % (1000 * 60)) / 1000)*-1;
+            var el = document.getElementById('timer');
+            el.innerHTML = numSeconds + " seconds"
+        }, 1000);
+
+        function endTimer() {
+            clearTimeout(timer);
+        }
 
     </script>
 </body>
